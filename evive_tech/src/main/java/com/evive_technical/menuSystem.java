@@ -19,7 +19,7 @@ public class menuSystem
          * 2) Parse via space and commas
          *  2.1) parse via commas
          *  2.2) check for particular meal based on first item
-         *  2.3) check that all other arguments are numbers
+         *  2.3) check that all other arguments are positive, integer, non-zero numbers
          * 3) Call meal request based on the numbers given
          *  3.1) call meal request and pass in order numbers
          *  3.2) reject order based on issues with order numbers and special rules (too large of a number, 
@@ -30,10 +30,6 @@ public class menuSystem
          * NOTE: A menu ordering system doesn't make much sense if it has to be run for each and every order
          * rather than running continuously, outputting orders, and waiting for a quit signal. That being 
          * said, that's what is in the spec, so that's what I'm doing.
-         * 
-         * NOTE: As far as OOP is concerned, I suppose, gun-to-my-head, you could create a class called "meal" with a 
-         * function that checks basic rules. You could then have children of that class that extend it for each specific 
-         * type of meal with prompts, checks, and output assembly. BUT, this program is so simple, why bother?
         */
         
         // Variable declarations
@@ -41,11 +37,10 @@ public class menuSystem
         String          input;
 
         // Prompt user and take input
-        System.out.println("Breakfast:\nEggs - 1\tToast - 2\tCoffee - 3\nUnlimited coffee orders for breakfast only\n");
-        System.out.println("Lunch:\nSandwich - 1\tChips - 2\tSoda - 3\nUnlimted chip orders for lunch only\n");
-        System.out.println("Dinner:\nSteak - 1\tPotatoes -2\tWine - 3\tCake - 4\nWater is always provided for dinner\n");
-        System.out.println("Any meals without a drink will be provided with water\nDinner must come with a dessert\n");
-        System.out.print("Please enter your meal and selection: ");
+        breakfast.displayBreakfastChoices();
+        //lunch.displayLunchChoices();
+        //dinner.displayDinnerChoices();
+        System.out.print("\nPlease enter your meal and selection: ");
 
         do{
             input = scan.nextLine();
@@ -72,15 +67,4 @@ public class menuSystem
         return match.find();
     }
 
-    private static String outputBreakfast(){
-
-    }
-
-    private static String outputLunch(){
-
-    }
-
-    private static String outputDinner(){
-
-    }
 }
