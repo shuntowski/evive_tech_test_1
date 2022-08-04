@@ -41,22 +41,19 @@ public class menuSystem
         String          mealName = "";
         String          stringOrder = "";
         List<Integer>   order = new ArrayList<Integer>();
-        breakfast       breakfastMeal;
-        //lunch           lunchMeal;
-        //dinner          dinnerMeal;
+
 
         // Prompt user and take input
         breakfast.displayBreakfastChoices();
-        //lunch.displayLunchChoices();
+        lunch.displayLunchChoices();
         //dinner.displayDinnerChoices();
         System.out.print("\nPlease enter your meal and selection: ");
 
         do{
             input = scan.nextLine();
         }while(input.equals("") || input.equals("\n") || input == null);
-
-        inputScan = new Scanner(input);
         
+
         //Check input for special Characters other than commas
         if(specialCharCheck(input)){
             System.out.println("Unable to process: please only enter letters, numbers, commas, and spaces");
@@ -64,8 +61,10 @@ public class menuSystem
             return;
         }
         
+
         //Fix input, parse meal name and order
         input = input.toLowerCase();
+        inputScan = new Scanner(input);
         inputScan.useDelimiter(" ");
         if (inputScan.hasNext()) mealName = inputScan.next();   //NOTE: Assuming meal name will always come first
         if (inputScan.hasNext()) stringOrder = inputScan.next();
@@ -76,14 +75,21 @@ public class menuSystem
             order.add(Integer.valueOf(inputScan.next()));
         }
 
+
         // call meal request
         switch(mealName){
             case "breakfast":   
-                breakfastMeal = new breakfast(order);
+                breakfast breakfastMeal = new breakfast(order);
                 System.out.println(breakfastMeal.processOrder());
                 break;
             case "lunch":       
-            case "dinner":      
+                lunch lunchMeal = new lunch(order);
+                System.out.println(lunchMeal.processOrder());
+                break;
+            /*case "dinner":      
+                dinner dinnerMeal = new dinner(order);
+                System.out.println(dinnerMeal.processOrder());
+                break;*/
             default:
                 System.out.println("Unable to process: invalid meal input");
                 scan.close();

@@ -2,7 +2,6 @@ package com.evive_technical;
 
 import java.util.List;
 import java.util.Arrays;
-//import java.util.Map;
 import java.util.HashMap;
 
 public class breakfast extends meal{
@@ -67,7 +66,7 @@ public class breakfast extends meal{
 
         // Apply rules and build output string
         processedOrder = isCompliantWithRules();
-        if(processedOrder.equals("")) processedOrder = listOrderedItems();
+        if(processedOrder.equals("Unable to process")) processedOrder = listOrderedItems();
         else return processedOrder;
 
         return processedOrder;
@@ -75,30 +74,55 @@ public class breakfast extends meal{
 
     private static String isCompliantWithRules(){
         // Each order must contain a main and a side, but only 1 each for breakfast, this does not apply to coffee
-        int sumMains = 0;
-        int sumSides = 0;
+        int mainCount = 0;
+        int sideCount = 0;
         String returnMsg = "Unable to process: ";
 
-        for(Integer i : mains.values()){
-            sumMains += i;
+        for(HashMap.Entry<String, Integer> entry : mains.entrySet()){
+            mainCount += entry.getValue();
+            if(entry.getValue() > 1){
+                returnMsg = returnMsg + entry.getKey() + " cannot be ordered more than once, ";
+            }
         }
 
-        for(Integer i : sides.values()){
-            sumSides += i;
+        if(mainCount < 1) returnMsg = returnMsg + "Main is missing, ";
+
+        for(HashMap.Entry<String, Integer> entry : sides.entrySet()){
+            sideCount += entry.getValue();
+            if(entry.getValue() > 1){
+                returnMsg = returnMsg + entry.getKey() + " cannot be ordered more than once, ";
+            }
         }
 
-        if (sumMains < 1 && sumSides < 1) returnMsg = returnMsg + "Main is missing, side is missing";
+        if(sideCount < 1) returnMsg = returnMsg + "Side is missing, ";
         
-        return "";  //TO-IMPLEMENT later, test listing items first.
+        return returnMsg.substring(0, returnMsg.length()-2);
     }
 
+    // NOTE: For the sake of simplicity, I'm assuming drinks are *always* the third listed set of items
     private static String listOrderedItems(){
         String returnOrderedItems = "";
 
         for(int i = 0; i < orderedItems.size(); i++){
-            for(HashMap.Entry<String, Integer> entry : orderedItems.get(i).entrySet()){
-                if(entry.getValue() > 1) returnOrderedItems = returnOrderedItems + entry.getKey() + "(" + entry.getValue() + ")";
-                else returnOrderedItems = returnOrderedItems + entry.getKey() + ", ";
+            if (i != 2){
+                for(HashMap.Entry<String, Integer> entry : orderedItems.get(i).entrySet()){
+                    if(entry.getValue() > 1) returnOrderedItems = returnOrderedItems + entry.getKey() + "(" + entry.getValue() + "), ";
+                    else returnOrderedItems = returnOrderedItems + entry.getKey() + ", ";
+                }
+            } else {
+                int drinkSum = 0;
+                for(HashMap.Entry<String, Integer> entry : orderedItems.get(i).entrySet()){
+                    if(entry.getValue() > 1){
+                        returnOrderedItems = returnOrderedItems + entry.getKey() + "(" + entry.getValue() + "), ";
+                        drinkSum++;
+                    } else if(entry.getValue() == 1){
+                        returnOrderedItems = returnOrderedItems + entry.getKey() + ", ";
+                        drinkSum++;
+                    }
+                }
+                if(drinkSum == 0){
+                    returnOrderedItems = returnOrderedItems + "Water, ";
+                }
             }
         }
         
