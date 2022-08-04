@@ -1,6 +1,8 @@
 package com.evive_technical;
 
 import java.util.Scanner;
+import java.util.List;
+import java.util.ArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -34,7 +36,14 @@ public class menuSystem
         
         // Variable declarations
         final Scanner   scan = new Scanner(System.in);
-        String          input;
+        Scanner         inputScan;
+        String          input = "";
+        String          mealName = "";
+        String          stringOrder = "";
+        List<Integer>   order = new ArrayList<Integer>();
+        breakfast       breakfastMeal;
+        //lunch           lunchMeal;
+        //dinner          dinnerMeal;
 
         // Prompt user and take input
         breakfast.displayBreakfastChoices();
@@ -45,6 +54,8 @@ public class menuSystem
         do{
             input = scan.nextLine();
         }while(input.equals("") || input.equals("\n") || input == null);
+
+        inputScan = new Scanner(input);
         
         //Check input for special Characters other than commas
         if(specialCharCheck(input)){
@@ -53,9 +64,36 @@ public class menuSystem
             return;
         }
         
+        //Fix input, parse meal name and order
         input = input.toLowerCase();
+        inputScan.useDelimiter(" ");
+        if (inputScan.hasNext()) mealName = inputScan.next();   //NOTE: Assuming meal name will always come first
+        if (inputScan.hasNext()) stringOrder = inputScan.next();
+        inputScan.close();
+        inputScan = new Scanner(stringOrder);
+        inputScan.useDelimiter(",");
+        while(inputScan.hasNext()){
+            order.add(Integer.valueOf(inputScan.next()));
+        }
+
+        // call meal request
+        switch(mealName){
+            case "breakfast":   
+                breakfastMeal = new breakfast(order);
+                System.out.println(breakfastMeal.processOrder());
+                break;
+            case "lunch":       
+            case "dinner":      
+            default:
+                System.out.println("Unable to process: invalid meal input");
+                scan.close();
+                inputScan.close();
+                return;
+        }
 
         scan.close();
+        inputScan.close();
+        return;
     }
 
     private static boolean specialCharCheck(String input){
