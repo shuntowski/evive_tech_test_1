@@ -25,7 +25,7 @@ public class breakfast extends meal{
     }
 
     public static void displayBreakfastChoices(){
-        System.out.println("Breakfast:\n");
+        System.out.println("\n\nBreakfast:\n");
         for(int i = 0; i < menu.size(); i++){
             for(int j = 0; j < menu.get(i).size(); j++){
                 System.out.print(menu.get(i).get(j) + "\t- " + (i+1));

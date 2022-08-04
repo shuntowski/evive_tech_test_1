@@ -31,4 +31,10 @@ public class meal {
     protected List<Integer> getOrder(){
         return this.order;
     }
+
+    // This function is used specifically for junit testing
+    protected void resetMeal(){
+        this.order = null;
+        this.mealName = "No meal selected";
+    }
 }

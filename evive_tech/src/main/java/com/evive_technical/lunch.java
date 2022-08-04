@@ -5,7 +5,7 @@ import java.util.Arrays;
 import java.util.HashMap;
 
 public class lunch extends meal{
-    private static final List<String> MAINOPTIONS = Arrays.asList("Sandwhich");
+    private static final List<String> MAINOPTIONS = Arrays.asList("Sandwich");
     private static final List<String> SIDEOPTIONS = Arrays.asList("Chips");
     private static final List<String> DRINKOPTIONS = Arrays.asList("Soda");
 
@@ -25,7 +25,7 @@ public class lunch extends meal{
     }
 
     public static void displayLunchChoices(){
-        System.out.println("Lunch:\n");
+        System.out.println("\n\nLunch:\n");
         for(int i = 0; i < menu.size(); i++){
             for(int j = 0; j < menu.get(i).size(); j++){
                 System.out.print(menu.get(i).get(j) + "\t- " + (i+1));
@@ -89,9 +89,6 @@ public class lunch extends meal{
 
         for(HashMap.Entry<String, Integer> entry : sides.entrySet()){
             sideCount += entry.getValue();
-            if(entry.getValue() > 1){
-                returnMsg = returnMsg + entry.getKey() + " cannot be ordered more than once, ";
-            }
         }
 
         if(sideCount < 1) returnMsg = returnMsg + "Side is missing, ";

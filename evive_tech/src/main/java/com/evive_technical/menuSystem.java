@@ -32,6 +32,12 @@ public class menuSystem
          * NOTE: A menu ordering system doesn't make much sense if it has to be run for each and every order
          * rather than running continuously, outputting orders, and waiting for a quit signal. That being 
          * said, that's what is in the spec, so that's what I'm doing.
+         * 
+         * TOIMPROVE: The system could be improved by:
+         * A) Making it function continuously until a quit signal is reached (not implemented because
+         *  of a desire for unit testing)
+         * B) Making the menu portion of each meal (main, side, drink, dessert) ignore empty menus so that additional menus can be provided. Again, 
+         *  not in spec but hey, could be fun later!
         */
         
         // Variable declarations
@@ -46,7 +52,7 @@ public class menuSystem
         // Prompt user and take input
         breakfast.displayBreakfastChoices();
         lunch.displayLunchChoices();
-        //dinner.displayDinnerChoices();
+        dinner.displayDinnerChoices();
         System.out.print("\nPlease enter your meal and selection: ");
 
         do{
@@ -86,10 +92,10 @@ public class menuSystem
                 lunch lunchMeal = new lunch(order);
                 System.out.println(lunchMeal.processOrder());
                 break;
-            /*case "dinner":      
+            case "dinner":      
                 dinner dinnerMeal = new dinner(order);
                 System.out.println(dinnerMeal.processOrder());
-                break;*/
+                break;
             default:
                 System.out.println("Unable to process: invalid meal input");
                 scan.close();
